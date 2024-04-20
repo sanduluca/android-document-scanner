@@ -51,7 +51,14 @@ class ImageUtil {
         }
 
         // try reading image without OpenCV
-        var imageBitmap = BitmapFactory.decodeFile(filePath)
+        var imageBitmap
+        try {
+            imageBitmap = BitmapFactory.decodeFile(filePath)
+        } catch (OutOfMemoryError e) {
+            var options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            imageBitmap = BitmapFactory.decodeFile(filePath, options);
+        }
         val rotation = when (ExifInterface(filePath).getAttributeInt(
             ExifInterface.TAG_ORIENTATION,
             ExifInterface.ORIENTATION_NORMAL
