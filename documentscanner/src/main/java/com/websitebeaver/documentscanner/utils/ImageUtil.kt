@@ -51,11 +51,11 @@ class ImageUtil {
         }
 
         // try reading image without OpenCV
-        var imageBitmap
+        var imageBitmap: Bitmap
         try {
             imageBitmap = BitmapFactory.decodeFile(filePath)
-        } catch (OutOfMemoryError e) {
-            var options = new BitmapFactory.Options();
+        } catch (e: OutOfMemoryError) {
+            var options = BitmapFactory.Options();
             options.inSampleSize = 2;
             imageBitmap = BitmapFactory.decodeFile(filePath, options);
         }
